@@ -50,14 +50,10 @@ public class TimedBeaconSimulator implements org.altbeacon.beacon.simulator.Beac
 	 */
 	public void createBasicSimulatedBeacons(){
 		if (USE_SIMULATED_IBEACONS) {
-			Beacon beacon1 = new Beacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997A".toLowerCase(),
-					1, 1);
-			Beacon beacon2 = new Beacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997B".toLowerCase(),
-			         1, 2);
-			Beacon beacon3 = new Beacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997C".toLowerCase(),
-					1, 3);
-			Beacon beacon4 = new Beacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997D".toLowerCase(),
-					1, 4);
+            Beacon beacon1 = new AltBeacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997A".toLowerCase(), "1", "1", -55, -55, 0, 0, null);
+            Beacon beacon2 = new AltBeacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997B".toLowerCase(), "1", "2", -55, -55, 0, 0, null);
+            Beacon beacon3 = new AltBeacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997C".toLowerCase(), "1", "3", -55, -55, 0, 0, null);
+            Beacon beacon4 = new AltBeacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997D".toLowerCase(), "1", "4", -55, -55, 0, 0, null);
 			beacons.add(beacon1);
 			beacons.add(beacon2);
 			beacons.add(beacon3);
@@ -77,10 +73,10 @@ public class TimedBeaconSimulator implements org.altbeacon.beacon.simulator.Beac
 	public void createTimedSimulatedBeacons(){
 		if (USE_SIMULATED_IBEACONS){
 			beacons = new ArrayList<Beacon>();
-			Beacon iBeacon1 = new Beacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997A".toLowerCase(), 1, 1);
-			Beacon iBeacon2 = new Beacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997B".toLowerCase(), 1, 2);
-			Beacon iBeacon3 = new Beacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997C".toLowerCase(), 1, 3);
-			Beacon iBeacon4 = new Beacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997D".toLowerCase(), 1, 4);
+			Beacon iBeacon1 = new AltBeacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997A".toLowerCase(), "1", "1", -55, -55, 0, 0, null);
+			Beacon iBeacon2 = new AltBeacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997B".toLowerCase(), "1", "2", -55, -55, 0, 0, null);
+			Beacon iBeacon3 = new AltBeacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997C".toLowerCase(), "1", "3", -55, -55, 0, 0, null);
+			Beacon iBeacon4 = new AltBeacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997D".toLowerCase(), "1", "4", -55, -55, 0, 0, null);
 			beacons.add(iBeacon1);
 			beacons.add(iBeacon2);
 			beacons.add(iBeacon3);

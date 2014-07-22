@@ -24,6 +24,7 @@ public class RangingActivity extends Activity implements BeaconConsumer {
         super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ranging);
         beaconManager.bind(this);
+        beaconManager.debug = true;
     }
     @Override 
     protected void onDestroy() {
@@ -49,7 +50,8 @@ public class RangingActivity extends Activity implements BeaconConsumer {
             if (beacons.size() > 0) {
             	EditText editText = (EditText)RangingActivity.this
 						.findViewById(R.id.rangingText);
-            	logToDisplay("The first beacon I see is about "+beacons.iterator().next().getAccuracy()+" meters away.");
+                Beacon firstBeacon = beacons.iterator().next();
+            	logToDisplay("The first beacon "+firstBeacon.toString()+" is about "+firstBeacon.getDistance()+" meters away.");
             }
         }
 
