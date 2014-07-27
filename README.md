@@ -10,11 +10,11 @@ This is a reference app for the AndroidBeaconLibrary supporting AltBeacon compat
 4. In this project directory, edit `local.properties`, and give it a line that
    specifies the path to your Android SDK. (e.g. `sdk.dir=/Applications/Android
    Studio.app/sdk`)
-5. Install and build the open-source `AndroidBeaconLibrary` in a parallel
+5. Install and build the open-source `android-beacon-library` in a parallel
    directory. (See below)
 
-## Installing the `AndroidIBeaconLibrary`
+## Installing the `AndroidBeaconLibrary`
 
 This project is dependent on the open source AndroidBeaconLibrary (from altbeacon.org).  It must be
-installed immediately underneath this project directory with a folder name AndroidBeaconLibrary, or
+installed immediately underneath this project directory with a folder name androidBeaconLibrary, or
 be linked with a symbolic link so it appears to be immediately under this project directory.

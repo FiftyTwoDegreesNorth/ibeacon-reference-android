@@ -19,7 +19,7 @@ android {
 
 dependencies {
     dependencies {
-        compile project(':AndroidBeaconLibrary')
+        compile project(':androidBeaconLibrary')
     }
     compile 'com.android.support:support-v4:+'
 }

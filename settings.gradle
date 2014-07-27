@@ -1,2 +1,2 @@
-include ':AndroidBeaconLibrary'
-include ':BeaconReference'
+include ':androidBeaconLibrary', 'beaconReference'
+include ':beaconReference'
