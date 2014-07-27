@@ -1,10 +1,4 @@
-package com.radiusnetworks.ibeaconreference;
-
-import com.radiusnetworks.ibeacon.IBeaconConsumer;
-import com.radiusnetworks.ibeacon.IBeaconManager;
-import com.radiusnetworks.ibeacon.MonitorNotifier;
-import com.radiusnetworks.ibeacon.Region;
-import com.radiusnetworks.ibeacon.TimedBeaconSimulator;
+package org.altbeacon.beaconreference;
 
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -16,13 +10,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import org.altbeacon.beacon.BeaconConsumer;
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.MonitorNotifier;
+import org.altbeacon.beacon.Region;
+
 /**
  * 
  * @author dyoung
  * @author Matt Tyler
  */
-public class MonitoringActivity extends Activity implements IBeaconConsumer  {
+public class MonitoringActivity extends Activity implements BeaconConsumer {
 	protected static final String TAG = "MonitoringActivity";
+    private BeaconManager beaconManager;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +32,22 @@ public class MonitoringActivity extends Activity implements IBeaconConsumer  {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_monitoring);
 		verifyBluetooth();
-	    iBeaconManager.bind(this);			
+
+        beaconManager = org.altbeacon.beacon.BeaconManager.getInstanceForApplication(this);
+
+        // By default the AndroidBeaconLibrary will only find AltBeacons.  If you wish to make it
+        // find a different type of beacon, you must specify the byte layout for that beacon's
+        // advertisement with a line like below.  The example shows how to find a beacon with the
+        // same byte layout as AltBeacon but with a beaconTypeCode of 0xaabb
+        //
+        // beaconManager.getBeaconParsers().add(new BeaconParser().
+        //        setBeaconLayout("m:2-3=aabb,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
+
+	    beaconManager.bind(this);
 	    
-		//initializing simulated iBeacons
-		//IBeaconManager.setBeaconSimulator(new TimedBeaconSimulator() );
-		//((TimedBeaconSimulator) IBeaconManager.getBeaconSimulator()).createTimedSimulatedBeacons();
+		//initializing simulated beacons
+		//BeaconManager.setBeaconSimulator(new TimedBeaconSimulator() );
+		//((TimedBeaconSimulator) BeaconManager.getBeaconSimulator()).createTimedSimulatedBeacons();
 	}
 	
 	public void onRangingClicked(View view) {
@@ -49,7 +62,7 @@ public class MonitoringActivity extends Activity implements IBeaconConsumer  {
 	private void verifyBluetooth() {
 
 		try {
-			if (!IBeaconManager.getInstanceForApplication(this).checkAvailability()) {
+			if (!BeaconManager.getInstanceForApplication(this).checkAvailability()) {
 				final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setTitle("Bluetooth not enabled");			
 				builder.setMessage("Please enable bluetooth in settings and restart this application.");
@@ -84,22 +97,20 @@ public class MonitoringActivity extends Activity implements IBeaconConsumer  {
 		
 	}	
 
-    private IBeaconManager iBeaconManager = IBeaconManager.getInstanceForApplication(this);
-
     @Override 
     protected void onDestroy() {
         super.onDestroy();
-        iBeaconManager.unBind(this);
+        beaconManager.unbind(this);
     }
     @Override 
     protected void onPause() {
     	super.onPause();
-    	if (iBeaconManager.isBound(this)) iBeaconManager.setBackgroundMode(this, true);    		
+    	if (beaconManager.isBound(this)) beaconManager.setBackgroundMode(this, true);
     }
     @Override 
     protected void onResume() {
     	super.onResume();
-    	if (iBeaconManager.isBound(this)) iBeaconManager.setBackgroundMode(this, false);    		
+    	if (beaconManager.isBound(this)) beaconManager.setBackgroundMode(this, false);
     }    
     
     private void logToDisplay(final String line) {
@@ -112,34 +123,29 @@ public class MonitoringActivity extends Activity implements IBeaconConsumer  {
     	});
     }
     @Override
-    public void onIBeaconServiceConnect() {
-        iBeaconManager.setMonitorNotifier(new MonitorNotifier() {
+    public void onBeaconServiceConnect() {
+        beaconManager.setMonitorNotifier(new MonitorNotifier() {
         @Override
         public void didEnterRegion(Region region) {
-          logToDisplay("I just saw an iBeacon named "+ region.getUniqueId() +" for the first time!" );       
+          logToDisplay("I just saw a beacon named "+ region.getUniqueId() +" for the first time!" );
         }
 
         @Override
         public void didExitRegion(Region region) {
-        	logToDisplay("I no longer see an iBeacon named "+ region.getUniqueId());
+        	logToDisplay("I no longer see a beacon named "+ region.getUniqueId());
         }
 
         @Override
         public void didDetermineStateForRegion(int state, Region region) {
-        	logToDisplay("I have just switched from seeing/not seeing iBeacons: "+state);     
+        	logToDisplay("I have just switched from seeing/not seeing beacons: "+state);
         }
 
 
         });
 
         try {
-        	iBeaconManager.startMonitoringBeaconsInRegion(new Region("myMonitoringUniqueId", null, null, null));
+        	beaconManager.startMonitoringBeaconsInRegion(new Region("myMonitoringUniqueId", null, null, null));
         	
-        	//Sample Simulated iBeacons
-        	//iBeaconManager.startMonitoringBeaconsInRegion(new Region("test1","DF7E1C79-43E9-44FF-886F-1D1F7DA6997A".toLowerCase(), 1, 1));
-        	//iBeaconManager.startMonitoringBeaconsInRegion(new Region("test2","DF7E1C79-43E9-44FF-886F-1D1F7DA6997B".toLowerCase(), 1, 2));
-        	//iBeaconManager.startMonitoringBeaconsInRegion(new Region("test3","DF7E1C79-43E9-44FF-886F-1D1F7DA6997C".toLowerCase(), 1, 3));
-        	//iBeaconManager.startMonitoringBeaconsInRegion(new Region("test4","DF7E1C79-43E9-44FF-886F-1D1F7DA6997D".toLowerCase(), 1, 4));
         } catch (RemoteException e) {   }
     }
 	

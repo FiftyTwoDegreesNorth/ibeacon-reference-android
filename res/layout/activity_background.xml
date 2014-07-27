@@ -14,6 +14,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="20dp"
-        android:text="This activity does not do anything.  Its sole purpose is to obscure the previous Monitoring activity so its onPause() event gets fired and the iBeaconManager is put in background mode.  If you look at LogCat, you will see that Bluetooth scans take place only every 5 minutes.  This demonstrates how scans are slowed down to save battery life." />
+        android:text="This activity does not do anything.  Its sole purpose is to obscure the previous Monitoring activity so its onPause() event gets fired and the beaconManager is put in background mode.  If you look at LogCat, you will see that Bluetooth scans take place only every 5 minutes.  This demonstrates how scans are slowed down to save battery life." />
 
 </RelativeLayout>
