@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.MonitorNotifier;
 import org.altbeacon.beacon.Region;
 
@@ -22,6 +23,8 @@ import org.altbeacon.beacon.Region;
  */
 public class MonitoringActivity extends Activity implements BeaconConsumer {
 	protected static final String TAG = "MonitoringActivity";
+    private BeaconManager beaconManager;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +32,20 @@ public class MonitoringActivity extends Activity implements BeaconConsumer {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_monitoring);
 		verifyBluetooth();
+
+        beaconManager = org.altbeacon.beacon.BeaconManager.getInstanceForApplication(this);
+
+        // By default the AndroidBeaconLibrary will only find AltBeacons.  If you wish to make it
+        // find a different type of beacon, you must specify the byte layout for that beacon's
+        // advertisement with a line like below.  The example shows how to find a beacon with the
+        // same byte layout as AltBeacon but with a beaconTypeCode of 0xaabb
+        //
+        // beaconManager.getBeaconParsers().add(new BeaconParser().
+        //        setBeaconLayout("m:2-3=aabb,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
+
 	    beaconManager.bind(this);
 	    
-		//initializing simulated iBeacons
+		//initializing simulated beacons
 		//BeaconManager.setBeaconSimulator(new TimedBeaconSimulator() );
 		//((TimedBeaconSimulator) BeaconManager.getBeaconSimulator()).createTimedSimulatedBeacons();
 	}
@@ -83,12 +97,10 @@ public class MonitoringActivity extends Activity implements BeaconConsumer {
 		
 	}	
 
-    private BeaconManager beaconManager = org.altbeacon.beacon.BeaconManager.getInstanceForApplication(this);
-
     @Override 
     protected void onDestroy() {
         super.onDestroy();
-        beaconManager.unBind(this);
+        beaconManager.unbind(this);
     }
     @Override 
     protected void onPause() {
@@ -134,11 +146,6 @@ public class MonitoringActivity extends Activity implements BeaconConsumer {
         try {
         	beaconManager.startMonitoringBeaconsInRegion(new Region("myMonitoringUniqueId", null, null, null));
         	
-        	//Sample Simulated iBeacons
-        	//iBeaconManager.startMonitoringBeaconsInRegion(new Region("test1","DF7E1C79-43E9-44FF-886F-1D1F7DA6997A".toLowerCase(), 1, 1));
-        	//iBeaconManager.startMonitoringBeaconsInRegion(new Region("test2","DF7E1C79-43E9-44FF-886F-1D1F7DA6997B".toLowerCase(), 1, 2));
-        	//iBeaconManager.startMonitoringBeaconsInRegion(new Region("test3","DF7E1C79-43E9-44FF-886F-1D1F7DA6997C".toLowerCase(), 1, 3));
-        	//iBeaconManager.startMonitoringBeaconsInRegion(new Region("test4","DF7E1C79-43E9-44FF-886F-1D1F7DA6997D".toLowerCase(), 1, 4));
         } catch (RemoteException e) {   }
     }
 	

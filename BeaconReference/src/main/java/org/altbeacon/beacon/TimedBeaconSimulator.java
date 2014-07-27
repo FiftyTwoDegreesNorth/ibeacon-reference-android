@@ -18,42 +18,46 @@ public class TimedBeaconSimulator implements org.altbeacon.beacon.simulator.Beac
 	private List<Beacon> beacons;
 
 	/*
-	 * You may simulate detection of iBeacons by creating a class like this in your project.
+	 * You may simulate detection of beacons by creating a class like this in your project.
 	 * This is especially useful for when you are testing in an Emulator or on a device without BluetoothLE capability.
 	 * 
 	 * Uncomment lines 36, 37, and 139 - 142 of MonitoringActivity.java and 
-	 * set USE_SIMULATED_IBEACONS = true to initialize the sample code in this class.
+	 * set USE_SIMULATED_BEACONS = true to initialize the sample code in this class.
 	 * If using a bluetooth incapable test device (i.e. Emulator), you will want to comment
 	 * out the verifyBluetooth() call on line 32 of MonitoringActivity.java as well.
 	 * 
-	 * Any simulated iBeacons will automatically be ignored when building for production.
+	 * Any simulated beacons will automatically be ignored when building for production.
 	 */
-	public boolean USE_SIMULATED_IBEACONS = false;
+	public boolean USE_SIMULATED_BEACONS = false;
 
 	/**
-	 *  Creates empty iBeacons ArrayList.
+	 *  Creates empty beacons ArrayList.
 	 */
 	public TimedBeaconSimulator(){
 		beacons = new ArrayList<Beacon>();
 	}
 	
 	/**
-	 * Required getter method that is called regularly by the Android iBeacon Library. 
-	 * Any iBeacons returned by this method will appear within your test environment immediately. 
+	 * Required getter method that is called regularly by the Android Beacon Library.
+	 * Any beacons returned by this method will appear within your test environment immediately.
 	 */
 	public List<Beacon> getBeacons(){
 		return beacons;
 	}
 	
 	/**
-	 * Creates simulated iBeacons all at once.
+	 * Creates simulated beacons all at once.
 	 */
 	public void createBasicSimulatedBeacons(){
-		if (USE_SIMULATED_IBEACONS) {
-            Beacon beacon1 = new AltBeacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997A".toLowerCase(), "1", "1", -55, -55, 0, 0, null);
-            Beacon beacon2 = new AltBeacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997B".toLowerCase(), "1", "2", -55, -55, 0, 0, null);
-            Beacon beacon3 = new AltBeacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997C".toLowerCase(), "1", "3", -55, -55, 0, 0, null);
-            Beacon beacon4 = new AltBeacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997D".toLowerCase(), "1", "4", -55, -55, 0, 0, null);
+		if (USE_SIMULATED_BEACONS) {
+            Beacon beacon1 = new AltBeacon.Builder().setId1("DF7E1C79-43E9-44FF-886F-1D1F7DA6997A")
+                    .setId2("1").setId3("1").setRssi(-55).setTxPower(-55).build();
+            Beacon beacon2 = new AltBeacon.Builder().setId1("DF7E1C79-43E9-44FF-886F-1D1F7DA6997A")
+                    .setId2("1").setId3("2").setRssi(-55).setTxPower(-55).build();
+            Beacon beacon3 = new AltBeacon.Builder().setId1("DF7E1C79-43E9-44FF-886F-1D1F7DA6997A")
+                    .setId2("1").setId3("3").setRssi(-55).setTxPower(-55).build();
+            Beacon beacon4 = new AltBeacon.Builder().setId1("DF7E1C79-43E9-44FF-886F-1D1F7DA6997A")
+                    .setId2("1").setId3("4").setRssi(-55).setTxPower(-55).build();
 			beacons.add(beacon1);
 			beacons.add(beacon2);
 			beacons.add(beacon3);
@@ -68,35 +72,39 @@ public class TimedBeaconSimulator implements org.altbeacon.beacon.simulator.Beac
 
 
 	/**
-	 * Simulates a new iBeacon every 10 seconds until it runs out of new ones to add.
+	 * Simulates a new beacon every 10 seconds until it runs out of new ones to add.
 	 */
 	public void createTimedSimulatedBeacons(){
-		if (USE_SIMULATED_IBEACONS){
+		if (USE_SIMULATED_BEACONS){
 			beacons = new ArrayList<Beacon>();
-			Beacon iBeacon1 = new AltBeacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997A".toLowerCase(), "1", "1", -55, -55, 0, 0, null);
-			Beacon iBeacon2 = new AltBeacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997B".toLowerCase(), "1", "2", -55, -55, 0, 0, null);
-			Beacon iBeacon3 = new AltBeacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997C".toLowerCase(), "1", "3", -55, -55, 0, 0, null);
-			Beacon iBeacon4 = new AltBeacon("DF7E1C79-43E9-44FF-886F-1D1F7DA6997D".toLowerCase(), "1", "4", -55, -55, 0, 0, null);
-			beacons.add(iBeacon1);
-			beacons.add(iBeacon2);
-			beacons.add(iBeacon3);
-			beacons.add(iBeacon4);
+            Beacon beacon1 = new AltBeacon.Builder().setId1("DF7E1C79-43E9-44FF-886F-1D1F7DA6997A")
+                    .setId2("1").setId3("1").setRssi(-55).setTxPower(-55).build();
+            Beacon beacon2 = new AltBeacon.Builder().setId1("DF7E1C79-43E9-44FF-886F-1D1F7DA6997A")
+                    .setId2("1").setId3("2").setRssi(-55).setTxPower(-55).build();
+            Beacon beacon3 = new AltBeacon.Builder().setId1("DF7E1C79-43E9-44FF-886F-1D1F7DA6997A")
+                    .setId2("1").setId3("3").setRssi(-55).setTxPower(-55).build();
+            Beacon beacon4 = new AltBeacon.Builder().setId1("DF7E1C79-43E9-44FF-886F-1D1F7DA6997A")
+                    .setId2("1").setId3("4").setRssi(-55).setTxPower(-55).build();
+			beacons.add(beacon1);
+			beacons.add(beacon2);
+			beacons.add(beacon3);
+			beacons.add(beacon4);
 			
-			final List<Beacon> finalIBeacons = new ArrayList<Beacon>(beacons);
+			final List<Beacon> finalBeacons = new ArrayList<Beacon>(beacons);
 
-			//Clearing iBeacons list to prevent all iBeacons from appearing immediately.
-			//These will be added back into the iBeacons list from finalIBeacons later.
+			//Clearing beacons list to prevent all beacons from appearing immediately.
+			//These will be added back into the beacons list from finalBeacons later.
 			beacons.clear();
 
 			scheduleTaskExecutor= Executors.newScheduledThreadPool(5);
 
-			// This schedules an iBeacon to appear every 10 seconds:
+			// This schedules an beacon to appear every 10 seconds:
 			scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {
 				public void run() {
 					try{
-						//putting a single iBeacon back into the iBeacons list.
-						if (finalIBeacons.size() > beacons.size())
-							beacons.add(finalIBeacons.get(beacons.size()));
+						//putting a single beacon back into the beacons list.
+						if (finalBeacons.size() > beacons.size())
+							beacons.add(finalBeacons.get(beacons.size()));
 						else 
 							scheduleTaskExecutor.shutdown();
 						
